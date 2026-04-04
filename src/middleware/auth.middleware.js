@@ -10,7 +10,7 @@ export const verifyUserJwt = asyncHandler(async (req, res, next) => {
 
   if (!token) {
     throw new ApiError(
-      STATUS.CLIENT_ERROR.UNAUTHORIZED,
+      401,
       "Authorization token is required."
     );
   }
