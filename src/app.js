@@ -1,12 +1,18 @@
 import express from "express";
+import cors from "cors";
+import Routes from "./routes/routes.config.js";
+import ApiResponse from "./utils/apiResponse.js";
+
 const app = express();
+app.use(cors())
+app.use(express.json());
+// app.use(cookieParser());
+app.use("/api/v1", Routes);
 
-// app.use("/api/v1", v1Routes);
-
-// app.use((_req, res, _next) => {
-//   res
-//     .status(STATUS.CLIENT_ERROR.NOT_FOUND)
-//     .json(new ApiResponse({}, `API endpoint not found: ${_req.originalUrl}`));
-// });
+app.use((_req, res, _next) => {
+  res
+    .status(404)
+    .json(new ApiResponse({}, `API endpoint not found: ${_req.originalUrl}`));
+});
 
 export default app;

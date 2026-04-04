@@ -1,3 +1,4 @@
+import { de } from "zod/locales";
 
 const asyncHandler = (requestHandler) => {
   return (req, res, next) => {
@@ -5,4 +6,4 @@ const asyncHandler = (requestHandler) => {
   };
 };
 
-export { asyncHandler };
+export default asyncHandler;

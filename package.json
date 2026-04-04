@@ -1,6 +1,7 @@
 {
   "name": "finance-tracker",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
@@ -12,13 +13,17 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.19.3",
+    "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.0",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "prettier": "^3.8.1",
-    "prisma": "^6.19.3"
+    "prisma": "^6.19.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

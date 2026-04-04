@@ -1,3 +1,4 @@
+import { de } from "zod/locales";
 
 class ApiResponse {
   constructor(data = {}, message = "Success") {
@@ -6,4 +7,4 @@ class ApiResponse {
   }
 }
 
-export { ApiResponse};
+export default ApiResponse;
