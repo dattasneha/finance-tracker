@@ -67,21 +67,21 @@ model DashboardSummary {
 }
 
 model MonthlyTrend {
-  id       String   @id @default(uuid())
+  id       String @id @default(uuid())
   category String
-  month    DateTime
-  income   Float    @default(0)
-  expense  Float    @default(0)
+  month    String
+  income   Float  @default(0)
+  expense  Float  @default(0)
 
   @@unique([category, month])
 }
 
 model WeeklyTrend {
-  id       String   @id @default(uuid())
+  id       String @id @default(uuid())
   category String
-  week     DateTime
-  income   Float    @default(0)
-  expense  Float    @default(0)
+  week     String
+  income   Float  @default(0)
+  expense  Float  @default(0)
 
   @@unique([category, week])
 }

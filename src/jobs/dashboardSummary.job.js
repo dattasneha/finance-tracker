@@ -52,13 +52,11 @@ export const dashBoardSummaryJob = () => {
           continue;
         }
 
-        const month = new Date(date.getFullYear(), date.getMonth(), 1);
+        const month = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`; 
+        const weekStart = `${date.getFullYear()}-W${getWeekNumber(date)}`; 
 
-        const weekStart = new Date(date);
-        weekStart.setDate(date.getDate() - date.getDay());
-
-        const monthKey = `${row.category}-${month.toISOString()}`;
-        const weekKey = `${row.category}-${weekStart.toISOString()}`;
+        const monthKey = `${row.category}-${month}`;
+        const weekKey = `${row.category}-${weekStart}`;
 
         if (!monthlyMap[monthKey]) {
           monthlyMap[monthKey] = { category: row.category, month, income: 0, expense: 0 };
