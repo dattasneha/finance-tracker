@@ -45,7 +45,7 @@ export const dashBoardSummaryJob = () => {
       const monthlyMap = {};
       const weeklyMap = {};
       for (const row of dates) {
-        const date = new Date(row.date);
+        const date = row.date ? new Date(row.date) : new Date(row.createdAt);
 
         const month = new Date(date.getFullYear(), date.getMonth(), 1);
         const weekStart = new Date(date);
