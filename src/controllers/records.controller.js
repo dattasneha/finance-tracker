@@ -2,7 +2,6 @@ import { transactionSchema,updateTransactionSchema} from "../models/transaction.
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/apiResponse.js";
 import { prisma } from "../utils/prismaClient.js";
-import { is } from "zod/locales";
 
 const createRecords = asyncHandler(async (req, res) => {
   const { amount, type, category, date, description } = transactionSchema.parse(req.body);
