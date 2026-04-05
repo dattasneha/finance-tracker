@@ -1,6 +1,7 @@
-import asyncHandler from "../utils/asyncHandler";
-import { prisma } from "../utils/prismaClient";
-
+import asyncHandler from "../utils/asyncHandler.js";
+import { prisma } from "../utils/prismaClient.js";
+import ApiResponse from "../utils/apiResponse.js";
+import ApiError from "../utils/apiError.js";
 const getDashBoardSummary = asyncHandler(async (req, res) => {
     const dashboardSummary = await prisma.dashboardSummary.findMany();
     if(dashboardSummary.length === 0) {
