@@ -9,3 +9,5 @@ router.get("/:category", verifyUserJwt, authorizeRoles("VIEWER", "EDITOR", "ADMI
 router.get("/recent-activities", verifyUserJwt, authorizeRoles("VIEWER", "EDITOR", "ADMIN"), getRecentActivities);
 router.get("/monthly-trends", verifyUserJwt, authorizeRoles("VIEWER", "EDITOR", "ADMIN"), getMonthlyTrends);
 router.get("/weekly-trends", verifyUserJwt, authorizeRoles("VIEWER", "EDITOR", "ADMIN"), getWeeklyTrends);
+
+export default router;
