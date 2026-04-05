@@ -2,7 +2,7 @@ import cron from "node-cron";
 import { prisma } from "../utils/prismaClient.js";
 
 export const dashBoardSummaryJob = () => {
-  cron.schedule("*/5 * * * *", async () => {
+  cron.schedule(process.env.JOB_SCHEDULE, async () => {
     try {
       const groupedTransactions = await prisma.transaction.groupBy({
         by: ["category", "type"],
