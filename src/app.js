@@ -3,9 +3,15 @@ import cors from "cors";
 import Routes from "./routes/routes.config.js";
 import ApiResponse from "./utils/apiResponse.js";
 import { dashBoardSummaryJob } from "./jobs/dashboardSummary.job.js";
-
+import cookieParser from "cookie-parser";
 const app = express();
-app.use(cors())
+
+app.use(cors({
+  origin: true,      
+  credentials: true  
+}));
+app.use(cookieParser());
+
 app.use(express.json());
 
 dashBoardSummaryJob();
