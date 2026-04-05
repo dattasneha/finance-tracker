@@ -1,7 +1,8 @@
-import { transactionSchema } from "../models/transaction.schema.js";
+import { transactionSchema,updateTransactionSchema} from "../models/transaction.schema.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/apiResponse.js";
 import { prisma } from "../utils/prismaClient.js";
+import { is } from "zod/locales";
 
 const createRecords = asyncHandler(async (req, res) => {
   const { amount, type, category, date, description } = transactionSchema.parse(req.body);
@@ -24,49 +25,68 @@ const createRecords = asyncHandler(async (req, res) => {
 });
 
 const viewRecords = asyncHandler(async (req, res) => {
-    const userId = req.user.id;
-    const records = await prisma.transaction.findMany({
-        where: { userId }
-    });
-    return res.status(200).json(new ApiResponse(records, "Records retrieved successfully."));
+    const records = await prisma.transaction.findMany();
+
+    return res
+        .status(200)
+        .json(new ApiResponse(records, "All records retrieved successfully."));
 });
 
 const viewRecordById = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const userId = req.user.id; 
-    const record = await prisma.transaction.findFirst({
-        where: { id, userId }
-    }); 
+
+    const record = await prisma.transaction.findUnique({
+        where: { id }
+    });
+
     if (!record) {
         return res.status(404).json(new ApiResponse(null, "Record not found."));
-    }   
+    }
+
     return res.status(200).json(new ApiResponse(record, "Record retrieved successfully."));
 });
 
-const updateRecords = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const { amount, type, category, date, description } = transactionSchema.parse(req.body);
-    const userId = req.user.id; 
-    const updatedRecord = await prisma.transaction.updateMany({
-        where: { id, userId },
-        data: {
-            amount,
-            type,
-            category,   
-            date: new Date(date),
-            description
-        }
-    });
-    return res.status(200).json(new ApiResponse(updatedRecord, "Record updated successfully."));
-}); 
+const updateRecord = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+
+  const parsedData = updateTransactionSchema.parse(req.body);
+  const existingRecord = await prisma.transaction.findFirst({
+    where: { id, userId }
+  });
+
+  if (!existingRecord) {
+    throw new ApiError(404, "Record not found.");
+  }
+
+  const updateData = { ...parsedData };
+
+  if (parsedData.date) {
+    updateData.date = new Date(parsedData.date);
+  }
+
+  const updatedRecord = await prisma.transaction.update({
+    where: { id },
+    data: updateData
+  });
+
+  return res.status(200).json(
+    new ApiResponse(updatedRecord, "Record updated successfully.")
+  );
+});
+ 
 
 const deleteRecords = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id; 
-    await prisma.transaction.delete({
-        where: { id, userId }
+    const existingRecord = await prisma.transaction.findFirst({
+        where: { id, userId },
+        data:{
+            isDeleted: true
+        }
+
     });
     return res.status(200).json(new ApiResponse(null, "Record deleted successfully."));
 });
 
-export {createRecords, viewRecords, updateRecords, deleteRecords};
+export {createRecords, viewRecords, viewRecordById, updateRecord, deleteRecords};

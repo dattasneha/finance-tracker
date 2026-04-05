@@ -21,3 +21,5 @@ export const transactionSchema = z.object({
    .string()
     .date()
 });
+
+export const updateTransactionSchema = transactionSchema.partial();
